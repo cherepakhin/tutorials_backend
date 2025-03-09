@@ -1,9 +1,6 @@
 ## Backend на kotlin и Spring Boot для React App 
 
-[https://github.com/cherepakhin/vacancy_backend](https://github.com/cherepakhin/vacancy_backend)
-
-frontend: 
-[https://github.com/cherepakhin/tutorial_frontend](https://github.com/cherepakhin/tutorial_frontend)
+frontend: [https://github.com/cherepakhin/tutorial_frontend](https://github.com/cherepakhin/tutorial_frontend)
 
 Запуск:
 
