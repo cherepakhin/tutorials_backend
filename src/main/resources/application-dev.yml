@@ -1,0 +1,89 @@
+server:
+  port: ${API_PORT:8980}
+  servlet:
+    context-path: "/api"
+  # For include message error to http response!!!
+  error:
+    include-message: always
+
+spring:
+  h2:
+    console:
+      enabled: true
+      path: /h2
+      settings:
+        web-allow-others: true
+  dataSource:
+    #  Для интеграционных тестов не отключаю
+    #  База данных уже закрыта (чтобы отключить автоматическое закрытие базы данных при останове JVM,
+    #  добавьте ";DB_CLOSE_ON_EXIT=FALSE" в URL)
+    url: jdbc:h2:mem:shop_db;DB_CLOSE_ON_EXIT=FALSE;MODE=MYSQL
+    driverClassName: org.h2.Driver
+    username: sa
+    password:
+  hibernate:
+    ddl-auto: create-drop
+    dialect: org.hibernate.dialect.MySQL57Dialect
+    #        generate_statistics: true
+  jpa:
+    # show SQL statements in console.
+    show-sql: true
+    #    database-platform: hibernate.dialect.MySQL57Dialect
+    properties:
+      hibernate:
+        format_sql: true
+        hbm2ddl:
+          import_files_sql_extractor: org.hibernate.tool.hbm2ddl.MultipleLinesSqlCommandExtractor
+  flyway:
+    enabled: true
+    generate_statistics: true
+#  cache:
+#    type: caffeine
+#    cache-names: allGroupProductDTO
+#  autoconfigure:
+#    exclude:
+#      - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+logging:
+  level:
+    root: info
+  file:
+    path: log/
+
+management:
+  health:
+    probes:
+      enabled: true
+  endpoint:
+    metrics:
+      enabled: true
+    prometheus:
+      enabled: true
+    health:
+      show-details: always
+      enabled: true
+    caches:
+      enabled: true
+    info:
+      enabled: true
+      show-details: always
+    beans:
+      enabled: true
+      show-details: always
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+      base-path: "/shop_kotlin/api/actuator"
+  metrics:
+    tags:
+      application: ${spring.application.name}
+    export:
+      prometheus:
+        enabled: true
+    distribution:
+      percentiles-histogram:
+        "[http.server.requests]": true
+  server:
+    port: 8988
+
+

@@ -1,0 +1,12 @@
+# This is SIMPLE DEMO CONFIG this app for add in prometheus.yml on server
+# By this settings Prometheus will be checking app
+global:
+  scrape_interval:     5s
+  evaluation_interval: 5s
+
+scrape_configs:
+  - job_name: 'spring boot scrape'
+    metrics_path: '/api/actuator/prometheus'
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['192.168.1.20:8988']

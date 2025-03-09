@@ -1,0 +1,1 @@
+podman run --net=host -v ./prometheus.yml:/etc/prometheus/prometheus.yml:Z  prom/prometheus
