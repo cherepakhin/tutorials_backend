@@ -4,6 +4,12 @@ frontend: [https://github.com/cherepakhin/tutorial_frontend](https://github.com/
 
 Запуск:
 
+````shell
 $ ./run_project.sh
+````
 
+Простая проверка сервиса:
+
+````shell
 $ http :8980/api/tutorial/echo/aaa
+````
