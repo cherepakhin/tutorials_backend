@@ -1,6 +1,9 @@
-## Backend на kotlin и Spring Boot для React App ~/prog/js/tutorial_frontend
+## Backend на kotlin и Spring Boot для React App 
 
-Фронт в ~/prog/js/tutorial_frontend
+[https://github.com/cherepakhin/vacancy_backend](https://github.com/cherepakhin/vacancy_backend)
+
+frontend: 
+[https://github.com/cherepakhin/tutorial_frontend](https://github.com/cherepakhin/tutorial_frontend)
 
 Запуск:
 
