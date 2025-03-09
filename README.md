@@ -2,6 +2,12 @@
 
 frontend: [https://github.com/cherepakhin/tutorial_frontend](https://github.com/cherepakhin/tutorial_frontend)
 
+Тесты:
+
+````shell
+$ ./gradlew test
+````
+
 Запуск:
 
 ````shell
