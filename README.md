@@ -1,4 +1,4 @@
-## Backend на kotlin и Spring Boot для frontend с Wicket 
+## Backend на kotlin и Spring Boot 
 
 frontend: [https://github.com/cherepakhin/tutorial_frontend](https://github.com/cherepakhin/tutorial_frontend)
 
