@@ -57,4 +57,10 @@ class TutorialServiceImpl(val tutorialRepository: TutorialRepository) : Tutorial
     override fun existById(id: Long): Boolean {
         return tutorialRepository.existsById(id)
     }
+
+    override fun findByNameContainingOrderByName(name: String): List<TutorialDTO> {
+        val entites = tutorialRepository.findByNameContainingOrderByName(name)
+        val dtos = entites.map { MapperTutorial.mapFromEntityToDto(it) }
+        return dtos
+    }
 }

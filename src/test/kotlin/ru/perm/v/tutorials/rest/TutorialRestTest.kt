@@ -10,8 +10,10 @@ import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.junit.jupiter.MockitoExtension
 import org.mockito.kotlin.*
+import org.springframework.mock.web.MockHttpServletRequest
 import ru.perm.v.tutorials.dto.TutorialDTO
 import ru.perm.v.tutorials.service.TutorialService
+import javax.servlet.http.HttpServletRequest
 
 @ExtendWith(MockitoExtension::class)
 internal class TutorialRestYaGPT5PRO {
@@ -27,8 +29,8 @@ internal class TutorialRestYaGPT5PRO {
         val N = 1L
         val NAME = "NAME_1"
         val DESCRIPTION: String = "DESCRIPTION_1"
-        var PUBLISHED: Boolean = false
-        var SUBMITTED: Boolean = false
+        val PUBLISHED: Boolean = false
+        val SUBMITTED: Boolean = false
 
         val tutorialDTO = TutorialDTO(N, NAME, DESCRIPTION, PUBLISHED, SUBMITTED)
 
@@ -45,8 +47,8 @@ internal class TutorialRestYaGPT5PRO {
         val N2 = 2L
         val NAME = "NAME_1"
         val DESCRIPTION: String = "DESCRIPTION_1"
-        var PUBLISHED: Boolean = false
-        var SUBMITTED: Boolean = false
+        val PUBLISHED: Boolean = false
+        val SUBMITTED: Boolean = false
 
         val dto1 = TutorialDTO(N1, NAME, DESCRIPTION, PUBLISHED, SUBMITTED)
         val dto2 = TutorialDTO(N2, NAME, DESCRIPTION, PUBLISHED, SUBMITTED)
@@ -66,8 +68,8 @@ internal class TutorialRestYaGPT5PRO {
         val N1 = 1L
         val NAME_EMPTY = ""
         val DESCRIPTION: String = "DESCRIPTION_1"
-        var PUBLISHED: Boolean = false
-        var SUBMITTED: Boolean = false
+        val PUBLISHED: Boolean = false
+        val SUBMITTED: Boolean = false
 
         val dto = TutorialDTO(N1, NAME_EMPTY, DESCRIPTION, PUBLISHED, SUBMITTED)
         var exceptMessage = ""
@@ -88,8 +90,8 @@ internal class TutorialRestYaGPT5PRO {
         val N1 = 1L
         val NAME = "NAME_1"
         val DESCRIPTION: String = "DESCRIPTION_1"
-        var PUBLISHED: Boolean = false
-        var SUBMITTED: Boolean = false
+        val PUBLISHED: Boolean = false
+        val SUBMITTED: Boolean = false
 
         val dto1 = TutorialDTO(N1, NAME, DESCRIPTION, PUBLISHED, SUBMITTED)
 
@@ -108,8 +110,8 @@ internal class TutorialRestYaGPT5PRO {
         val N1 = 1L
         val NAME = ""
         val DESCRIPTION: String = "DESCRIPTION"
-        var PUBLISHED: Boolean = false
-        var SUBMITTED: Boolean = false
+        val PUBLISHED: Boolean = false
+        val SUBMITTED: Boolean = false
 
         val tutorial = TutorialDTO(N1, NAME, DESCRIPTION, PUBLISHED, SUBMITTED)
         val exception = assertThrows<Exception> { tutorialRest.create(tutorial) }
@@ -125,8 +127,8 @@ internal class TutorialRestYaGPT5PRO {
         val N1 = 1L
         val NAME = ""
         val DESCRIPTION: String = "DESCRIPTION"
-        var PUBLISHED: Boolean = false
-        var SUBMITTED: Boolean = false
+        val PUBLISHED: Boolean = false
+        val SUBMITTED: Boolean = false
 
         val tutorial = TutorialDTO(N1, NAME, DESCRIPTION, PUBLISHED, SUBMITTED)
 
@@ -145,8 +147,8 @@ internal class TutorialRestYaGPT5PRO {
         val N1 = 1L
         val NAME = "NAME_1"
         val DESCRIPTION: String = ""
-        var PUBLISHED: Boolean = false
-        var SUBMITTED: Boolean = false
+        val PUBLISHED: Boolean = false
+        val SUBMITTED: Boolean = false
 
         val dto = TutorialDTO(N1, NAME, DESCRIPTION, PUBLISHED, SUBMITTED)
 
@@ -158,8 +160,8 @@ internal class TutorialRestYaGPT5PRO {
         val N1 = 1L
         val UPDATED_NAME = "UPDATED_NAME_1"
         val DESCRIPTION: String = ""
-        var PUBLISHED: Boolean = false
-        var SUBMITTED: Boolean = false
+        val PUBLISHED: Boolean = false
+        val SUBMITTED: Boolean = false
 
         val dto = TutorialDTO(N1, UPDATED_NAME, DESCRIPTION, PUBLISHED, SUBMITTED)
         val updatedDto = TutorialDTO(N1, UPDATED_NAME, DESCRIPTION, PUBLISHED, SUBMITTED)
@@ -193,4 +195,29 @@ internal class TutorialRestYaGPT5PRO {
             exception.message
         )
     }
+
+    @Test
+    fun byParameter() {
+        val N1 = 1L
+        val N2 = 2L
+        val NAME = "NAME_1"
+        val DESCRIPTION: String = "DESCRIPTION_1"
+        val PUBLISHED: Boolean = false
+        val SUBMITTED: Boolean = false
+        val dto1 = TutorialDTO(N1, NAME, DESCRIPTION, PUBLISHED, SUBMITTED)
+        val dto2 = TutorialDTO(N2, NAME, DESCRIPTION, PUBLISHED, SUBMITTED)
+
+        Mockito.`when`(mockTutorialService.findByNameContainingOrderByName("someName"))
+            .thenReturn(listOf(dto1, dto2))
+
+
+        val request = MockHttpServletRequest()
+        request.addParameter("name", "someName");
+
+
+        val foundTutorials =  tutorialRest.byParameter(request)
+
+        assertEquals(2, foundTutorials.size)
+    }
+
 }

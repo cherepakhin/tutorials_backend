@@ -3,14 +3,14 @@ package ru.perm.v.tutorials.rest
 import io.swagger.annotations.ApiOperation
 import io.swagger.v3.oas.annotations.Parameter
 import org.slf4j.LoggerFactory
-import org.springframework.cache.annotation.CacheEvict
-import org.springframework.cache.annotation.Cacheable
 import org.springframework.web.bind.annotation.*
 import ru.perm.v.tutorials.dto.TutorialDTO
 import ru.perm.v.tutorials.service.TutorialService
 import java.lang.String.format
+import javax.servlet.http.HttpServletRequest
 import javax.validation.ConstraintViolation
 import javax.validation.Validation
+
 
 @RestController
 @RequestMapping("/tutorial")
@@ -25,10 +25,22 @@ class TutorialRest(val tutorialService: TutorialService) {
         @Parameter(
             description = "Any string. will be returned in response."
         )
-        @PathVariable mes: String
+        @PathVariable mes: String,
     ): String {
         logger.info(format("echo %s", mes))
         return mes
+    }
+
+    /**
+     * GET http :8980/api/tutorial/byGetParameter?name=AAAAAA
+     * GET http :8980/api/tutorial/byGetParameter?name="Name Tutorial4"
+     * Search by name: Name Tutorial4
+     */
+    @GetMapping("/by")
+    fun byParameter(request: HttpServletRequest): List<TutorialDTO> {
+        val searchName = request.getParameter("name")
+        logger.info("Search by name: $searchName")
+        return tutorialService.findByNameContainingOrderByName(searchName)
     }
 
     @PostMapping
@@ -37,7 +49,7 @@ class TutorialRest(val tutorialService: TutorialService) {
         @Parameter(
             description = "DTO of Tutorial."
         )
-        @RequestBody tutorialDTO: TutorialDTO
+        @RequestBody tutorialDTO: TutorialDTO,
     ): TutorialDTO {
         validate(tutorialDTO)
         return tutorialService.create(tutorialDTO)
@@ -51,7 +63,7 @@ class TutorialRest(val tutorialService: TutorialService) {
             description = "N(ID) Tutorial."
         )
         @PathVariable
-        n: Long
+        n: Long,
     ): TutorialDTO {
         return tutorialService.getByN(n)
     }
@@ -63,7 +75,7 @@ class TutorialRest(val tutorialService: TutorialService) {
         return tutorialService.getAll()
     }
 
-    @PostMapping(path = ["/{n}"], consumes = ["application/json"], produces = ["application/json"])
+    @PutMapping(path = ["/{n}"], consumes = ["application/json"], produces = ["application/json"])
 //    @CacheEvict(value = ["tutorials", "allTutorialDTO"], allEntries = true)
     @ApiOperation("Update Tutorial")
     fun update(
@@ -73,7 +85,7 @@ class TutorialRest(val tutorialService: TutorialService) {
             description = "Tutorial."
         )
         @RequestBody
-        tutorial: TutorialDTO
+        tutorial: TutorialDTO,
     ): TutorialDTO {
         logger.info("UPDATE:$tutorial")
         validate(tutorial)
@@ -88,10 +100,10 @@ class TutorialRest(val tutorialService: TutorialService) {
             description = "N(ID) Tutorial."
         )
         @PathVariable
-        n: Long
+        n: Long,
     ) {
-        if(tutorialService.existById(n))
-        tutorialService.delete(n)
+        if (tutorialService.existById(n))
+            tutorialService.delete(n)
     }
 
     fun validate(tutorialDTO: TutorialDTO) {

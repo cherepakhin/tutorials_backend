@@ -10,4 +10,5 @@ interface TutorialService {
     fun update(dto: TutorialDTO): TutorialDTO
     fun delete(n: kotlin.Long)
     fun existById(n: Long): Boolean
+    fun findByNameContainingOrderByName(name: String): List<TutorialDTO>
 }
