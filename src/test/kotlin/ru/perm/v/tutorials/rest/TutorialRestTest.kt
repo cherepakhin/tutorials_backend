@@ -178,6 +178,8 @@ internal class TutorialRestTest {
     fun deleteById() {
         val N = 100L
 
+        Mockito.`when`(mockTutorialService.existById(N))
+            .thenReturn(true)
         tutorialRest.deleteById(N)
 
         verify(mockTutorialService, times(1)).delete(N)
@@ -204,9 +206,9 @@ internal class TutorialRestTest {
         val N1 = 1L
         val N2 = 2L
         val NAME = "NAME_1"
-        val DESCRIPTION: String = "DESCRIPTION_1"
-        val PUBLISHED: Boolean = false
-        val SUBMITTED: Boolean = false
+        val DESCRIPTION = "DESCRIPTION_1"
+        val PUBLISHED = false
+        val SUBMITTED = false
         val dto1 = TutorialDTO(N1, NAME, DESCRIPTION, PUBLISHED, SUBMITTED)
         val dto2 = TutorialDTO(N2, NAME, DESCRIPTION, PUBLISHED, SUBMITTED)
 
