@@ -186,6 +186,7 @@ internal class TutorialRestTest {
     @Test
     fun deleteByNotExistId() {
         val ID = 100L
+// DON'T DELETE COMMENT. This example.
 //        doThrow(Exception("ERROR_MESSAGE")).`when`(mockTutorialService).delete(ID)
         Mockito.`when`(mockTutorialService.existById(ID))
             .thenReturn(false)
