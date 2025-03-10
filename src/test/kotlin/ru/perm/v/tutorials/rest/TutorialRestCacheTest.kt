@@ -74,7 +74,7 @@ class TutorialRestCacheTest(@Autowired val tutorialRest: TutorialRest,
     }
 
     @Test
-    fun getAll() {
+    fun call3timesGetAll() {
         val N_111 = 111L
         val N_222 = 222L
         val NAME = "NAME"
