@@ -1,5 +1,8 @@
 package ru.perm.v.tutorials.rest
 
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.module.kotlin.KotlinModule
+import com.fasterxml.jackson.module.kotlin.readValue
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.Mockito
@@ -26,13 +29,15 @@ import kotlin.test.assertEquals
 @ExtendWith(SpringExtension::class)
 @WebMvcTest(TutorialRest::class)
 @ContextConfiguration
-//@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class TutorialRestCacheTest(@Autowired val tutorialRest: TutorialRest, @Autowired private val mockMvc: MockMvc) {
+class TutorialRestCacheTest(@Autowired val tutorialRest: TutorialRest,
+                            @Autowired private val mockMvc: MockMvc) {
     @MockBean
     lateinit var tutorialService: TutorialService
 
     @Autowired
     lateinit var cache: CacheManager
+
+    val mapper = ObjectMapper().registerModule(KotlinModule())
 
     @EnableCaching
     @TestConfiguration
@@ -42,27 +47,30 @@ class TutorialRestCacheTest(@Autowired val tutorialRest: TutorialRest, @Autowire
     }
 
     @Test
-    fun getByN() {
+    fun call3timesGetByN() {
         val N = 100L
 
         val tutorial = TutorialDTO(N, "NAME", "DESCRIPTION", false, false)
         Mockito.`when`(tutorialService.getByN(N)).thenReturn(tutorial)
-
+        val REQUEST_URL = "/tutorial/$N"
         // call 3 times
         mockMvc.perform(
-            MockMvcRequestBuilders.get("/tutorial/$N")
+            MockMvcRequestBuilders.get(REQUEST_URL)
         )
             .andExpect(MockMvcResultMatchers.status().isOk)
             .andReturn()
         mockMvc.perform(
-            MockMvcRequestBuilders.get("/tutorial/$N")
+            MockMvcRequestBuilders.get(REQUEST_URL)
         )
-        mockMvc.perform(
-            MockMvcRequestBuilders.get("/tutorial/$N")
-        )
+        val result = mockMvc.perform(
+            MockMvcRequestBuilders.get(REQUEST_URL)
+        ).andReturn()
 
         // but tutorialService.getByN(N) was called only 1 time
         verify(tutorialService, times(1)).getByN(N)
+
+        val receivedProductDTO = mapper.readValue<TutorialDTO>(result.response.contentAsString)
+        assertEquals(tutorial, receivedProductDTO)
     }
 
     @Test
