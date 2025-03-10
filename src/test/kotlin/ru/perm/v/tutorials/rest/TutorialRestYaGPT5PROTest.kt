@@ -47,9 +47,9 @@ class TutorialRestYaGPT5PROTest {
     fun testCreateTutorial() {
         val N = 1L
         val NAME = "NAME_1"
-        val DESCRIPTION: String = "DESCRIPTION_1"
-        var PUBLISHED: Boolean = false
-        var SUBMITTED: Boolean = false
+        val DESCRIPTION = "DESCRIPTION_1"
+        val PUBLISHED = false
+        val SUBMITTED = false
         val tutorialDTO = TutorialDTO(N, NAME, DESCRIPTION, PUBLISHED, SUBMITTED)
         `when`(tutorialService.create(tutorialDTO)).thenReturn(tutorialDTO)
         mockMvc.perform(
@@ -62,10 +62,10 @@ class TutorialRestYaGPT5PROTest {
 
     @Test
     fun testGetByN() {
-        val n = 1L
+        val N = 1L
         val tutorialDTO = TutorialDTO()
-        `when`(tutorialService.getByN(n)).thenReturn(tutorialDTO)
-        mockMvc.perform(get("/tutorial/$n"))
+        `when`(tutorialService.getByN(N)).thenReturn(tutorialDTO)
+        mockMvc.perform(get("/tutorial/$N"))
             .andExpect(status().isOk)
     }
 
@@ -81,9 +81,9 @@ class TutorialRestYaGPT5PROTest {
     fun testUpdateTutorial() {
         val N = 1L
         val NAME = "NAME_1"
-        val DESCRIPTION: String = "DESCRIPTION_1"
-        var PUBLISHED: Boolean = false
-        var SUBMITTED: Boolean = false
+        val DESCRIPTION = "DESCRIPTION_1"
+        val PUBLISHED = false
+        val SUBMITTED = false
         val tutorialDTO = TutorialDTO(N, NAME, DESCRIPTION, PUBLISHED, SUBMITTED)
         `when`(tutorialService.update(tutorialDTO)).thenReturn(tutorialDTO)
         mockMvc.perform(
@@ -96,10 +96,12 @@ class TutorialRestYaGPT5PROTest {
 
     @Test
     fun testDeleteById() {
-        val n = 1L
-        doNothing().`when`(tutorialService).delete(n)
+        // После генерации, мной исправлено
+        val N = 1L
+        `when`(tutorialService.existById(N)).thenReturn(true)
+        doNothing().`when`(tutorialService).delete(N)
 
-        mockMvc.perform(delete("/tutorial/$n"))
+        mockMvc.perform(delete("/tutorial/$N"))
             .andExpect(status().isOk)
     }
 }
