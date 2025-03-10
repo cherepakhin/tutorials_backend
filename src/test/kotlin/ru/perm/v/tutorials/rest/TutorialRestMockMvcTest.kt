@@ -39,7 +39,7 @@ class TutorialRestMockMvcTest(@Autowired private val mockMvc: MockMvc) {
     @Test
     fun echoMessage() {
         val mes = mockMvc.perform(
-            MockMvcRequestBuilders.get("/product/echo/ECHO_MESSAGE")
+            MockMvcRequestBuilders.get("/tutorial/echo/ECHO_MESSAGE")
         )
             .andExpect(MockMvcResultMatchers.status().isOk)
             .andReturn()
@@ -52,8 +52,8 @@ class TutorialRestMockMvcTest(@Autowired private val mockMvc: MockMvc) {
         val N = 1L
         val NAME = "NAME_1"
         val DESCRIPTION: String = "DESCRIPTION_1"
-        var PUBLISHED: Boolean = false
-        var SUBMITTED: Boolean = false
+        val PUBLISHED: Boolean = false
+        val SUBMITTED: Boolean = false
         val tutorialDTO = TutorialDTO(N, NAME, DESCRIPTION, PUBLISHED, SUBMITTED)
 
         doReturn(tutorialDTO).`when`(mockTutorialService).create(tutorialDTO)
