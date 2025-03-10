@@ -95,7 +95,10 @@ class TutorialRestMockMvcTest(@Autowired private val mockMvc: MockMvc) {
             .andExpect(MockMvcResultMatchers.status().isOk)
             .andReturn()
 
-        assertEquals("{\"n\":1,\"name\":\"NAME_1\",\"description\":\"DESCRIPTION_1\",\"published\":false,\"submitted\":false}", mes.response.contentAsString)
+        assertEquals(
+            "{\"n\":1,\"name\":\"NAME_1\",\"description\":\"DESCRIPTION_1\",\"published\":false,\"submitted\":false}",
+            mes.response.contentAsString
+        )
 
         val receivedProductDTO = mapper.readValue<TutorialDTO>(mes.response.contentAsString)
         assertEquals(tutorialDTO, receivedProductDTO)
@@ -154,7 +157,10 @@ class TutorialRestMockMvcTest(@Autowired private val mockMvc: MockMvc) {
             .andExpect(MockMvcResultMatchers.status().isOk)
             .andReturn()
 
-        assertEquals("{\"n\":10,\"name\":\"NAME_1\",\"description\":\"DESCRIPTION_1\",\"published\":false,\"submitted\":false}", mes.response.contentAsString)
+        assertEquals(
+            "{\"n\":10,\"name\":\"NAME_1\",\"description\":\"DESCRIPTION_1\",\"published\":false,\"submitted\":false}",
+            mes.response.contentAsString
+        )
 
         val receivedProductDTO = mapper.readValue<TutorialDTO>(mes.response.contentAsString)
         assertEquals(tutorialDTO_10, receivedProductDTO)
@@ -163,7 +169,7 @@ class TutorialRestMockMvcTest(@Autowired private val mockMvc: MockMvc) {
     @Test
     fun deleteById() {
         val N = 10L
-
+        `when`(mockTutorialService.existById(N)).thenReturn(true)
         mockMvc.perform(
             MockMvcRequestBuilders
                 .delete("/tutorial/" + N)
@@ -173,6 +179,7 @@ class TutorialRestMockMvcTest(@Autowired private val mockMvc: MockMvc) {
             .andExpect(MockMvcResultMatchers.status().isOk)
             .andReturn()
 
+        verify(mockTutorialService, times(1)).existById(N)
         verify(mockTutorialService, times(1)).delete(N)
     }
 
