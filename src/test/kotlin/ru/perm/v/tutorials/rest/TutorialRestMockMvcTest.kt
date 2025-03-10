@@ -15,7 +15,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.http.MediaType
 import org.springframework.test.context.junit.jupiter.SpringExtension
-import org.springframework.test.web.client.match.MockRestRequestMatchers.header
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers
@@ -23,7 +22,6 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import ru.perm.v.tutorials.dto.TutorialDTO
 import ru.perm.v.tutorials.service.TutorialService
-import kotlin.test.assertTrue
 
 @ExtendWith(SpringExtension::class)
 @WebMvcTest(TutorialRest::class)
@@ -213,21 +211,21 @@ class TutorialRestMockMvcTest(@Autowired private val mockMvc: MockMvc) {
     fun getByExistId_generatedIdeaGPT() {
         val N10 = 10L
         val NAME = "NAME_1"
-        val DESCRIPTION: String = "DESCRIPTION_1"
-        var PUBLISHED: Boolean = false
-        var SUBMITTED: Boolean = false
+        val DESCRIPTION = "DESCRIPTION_1"
+        val PUBLISHED = false
+        val SUBMITTED = false
 
         val tutorialDTO_10 = TutorialDTO(N10, NAME, DESCRIPTION, PUBLISHED, SUBMITTED)
 
         `when`(mockTutorialService.getByN(N10)).thenReturn(tutorialDTO_10)
 
         val message = mockMvc.perform(
-            MockMvcRequestBuilders.get("/product/" + N10)
+            MockMvcRequestBuilders.get("/tutorial/" + N10)
         )
             .andExpect(status().isOk)
             .andReturn()
             .response.contentAsString
 
-        assertEquals("{\"n\":10,\"name\":\"NAME_10\",\"groupDtoN\":-1}", message)
+        assertEquals("{\"n\":10,\"name\":\"NAME_1\",\"description\":\"DESCRIPTION_1\",\"published\":false,\"submitted\":false}", message)
     }
 }
