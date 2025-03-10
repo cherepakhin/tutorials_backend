@@ -7,21 +7,23 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.api.extension.ExtendWith
+import org.mockito.Mockito
 import org.mockito.Mockito.`when`
-import org.mockito.kotlin.doReturn
-import org.mockito.kotlin.times
-import org.mockito.kotlin.verify
+import org.mockito.kotlin.*
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.http.MediaType
 import org.springframework.test.context.junit.jupiter.SpringExtension
+import org.springframework.test.web.client.match.MockRestRequestMatchers.header
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import ru.perm.v.tutorials.dto.TutorialDTO
 import ru.perm.v.tutorials.service.TutorialService
+import kotlin.test.assertTrue
 
 @ExtendWith(SpringExtension::class)
 @WebMvcTest(TutorialRest::class)
@@ -187,9 +189,9 @@ class TutorialRestMockMvcTest(@Autowired private val mockMvc: MockMvc) {
     fun deleteByNotExistId() {
         val N = 10L
 
-        `when`(mockTutorialService.delete(N)).thenThrow(Exception("ERROR"))
+        `when`(mockTutorialService.existById(N)).thenReturn(false)
 
-        assertThrows<Exception> {
+        val result = assertThrows<Exception> {
             mockMvc.perform(
                 MockMvcRequestBuilders
                     .delete("/tutorial/" + N)
@@ -197,8 +199,14 @@ class TutorialRestMockMvcTest(@Autowired private val mockMvc: MockMvc) {
                     .contentType(MediaType.APPLICATION_JSON)
             )
                 .andExpect(MockMvcResultMatchers.status().isBadRequest)
+                .andExpect(content().string(""))
+                .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
                 .andReturn()
         }
+        Mockito.verify(mockTutorialService, never()).delete(any())
+        Mockito.verify(mockTutorialService, never()).delete(N)
+
+        assertEquals("Tutorial with ID=10 not found.", result.cause?.message)
     }
 
     @Test
