@@ -80,8 +80,8 @@ class TutorialRestMockMvcTest(@Autowired private val mockMvc: MockMvc) {
         val N = 1L
         val NAME = "NAME_1"
         val DESCRIPTION: String = "DESCRIPTION_1"
-        var PUBLISHED: Boolean = false
-        var SUBMITTED: Boolean = false
+        val PUBLISHED: Boolean = false
+        val SUBMITTED: Boolean = false
         val tutorialDTO = TutorialDTO(N, NAME, DESCRIPTION, PUBLISHED, SUBMITTED)
         doReturn(tutorialDTO).`when`(mockTutorialService).getByN(N)
 
@@ -95,7 +95,7 @@ class TutorialRestMockMvcTest(@Autowired private val mockMvc: MockMvc) {
             .andExpect(MockMvcResultMatchers.status().isOk)
             .andReturn()
 
-        assertEquals("{\"n\":10,\"name\":\"NAME_10\",\"groupDtoN\":-1}", mes.response.contentAsString)
+        assertEquals("{\"n\":1,\"name\":\"NAME_1\",\"description\":\"DESCRIPTION_1\",\"published\":false,\"submitted\":false}", mes.response.contentAsString)
 
         val receivedProductDTO = mapper.readValue<TutorialDTO>(mes.response.contentAsString)
         assertEquals(tutorialDTO, receivedProductDTO)
@@ -105,8 +105,8 @@ class TutorialRestMockMvcTest(@Autowired private val mockMvc: MockMvc) {
     fun getAll() {
         val NAME = "NAME_1"
         val DESCRIPTION: String = "DESCRIPTION_1"
-        var PUBLISHED: Boolean = false
-        var SUBMITTED: Boolean = false
+        val PUBLISHED: Boolean = false
+        val SUBMITTED: Boolean = false
         val N10 = 10L
         val N11 = 11L
 
