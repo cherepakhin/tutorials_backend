@@ -1,9 +1,10 @@
 package ru.perm.v.tutorials.service.impl
 
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
+import ru.perm.v.tutorials.dto.TutorialDTO
 import ru.perm.v.tutorials.repository.TutorialRepository
 
 @DataJpaTest
@@ -19,16 +20,30 @@ class TutorialServiceIntegrationTest {
         assertEquals(4, tutorialService.getAll().size)
     }
 
-//TODO: test for integration tests
-//    @Test
-//    fun getByDslFilterByIds() {
-//        val productService = ProductServiceImpl(productRepository, groupProductService)
-//        val filter = ProductFilter(listOf(31L, 32L))
-//
-//        val filteredProducts = productService.getByFilter(filter)
-//
-//        assertEquals(2, filteredProducts.size)
-//    }
+    //TODO: test for integration tests
+    @Test
+    fun getByDslFilterByName() {
+        val tutorialService = TutorialServiceImpl(tutorialRepository)
+        val NAME = "Tutorial"
+
+        val tutorials = tutorialService.findByNameContainingOrderByName(NAME)
+
+        assertEquals(4, tutorials.size)
+    }
+
+    @Test
+    fun getByDslFilterByName1() {
+        val tutorialService = TutorialServiceImpl(tutorialRepository)
+        val NAME = "Tutorial1"
+
+        val tutorials = tutorialService.findByNameContainingOrderByName(NAME)
+
+        assertEquals(1, tutorials.size)
+        assertEquals(
+            TutorialDTO(1, "Name Tutorial1", "Description Tutorial1", true, true),
+            tutorials.get(0)
+        )
+    }
 //
 //    @Test
 //    fun getByDslFilterIdsAndName() {
