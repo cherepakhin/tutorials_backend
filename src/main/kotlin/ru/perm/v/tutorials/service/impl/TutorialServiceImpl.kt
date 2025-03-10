@@ -72,4 +72,14 @@ class TutorialServiceImpl(val tutorialRepository: TutorialRepository) : Tutorial
         return tutorialRepository.getNextN()
     }
 
+    override fun findByNameContainingAndDescriptionContainingOrderByName(
+        name: String,
+        description: String,
+    ): List<TutorialDTO> {
+        val entities = tutorialRepository.findByNameContainingAndDescriptionContainingOrderByName(name, description)
+        val dtos = entities.map { MapperTutorial.mapFromEntityToDto(it) }
+        return dtos
+    }
+
+
 }

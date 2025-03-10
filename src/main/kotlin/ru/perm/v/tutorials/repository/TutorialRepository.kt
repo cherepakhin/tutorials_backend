@@ -19,6 +19,7 @@ interface TutorialRepository : JpaRepository<TutorialEntity, Long>,
     fun getNextN(): Long
 
     fun findByNameContainingOrderByName(name: String): List<TutorialEntity>
+    fun findByNameContainingAndDescriptionContainingOrderByName(name: String, description: String): List<TutorialEntity>
 
     @Query(
         "select count(*) from TutorialEntity"

@@ -31,7 +31,7 @@ class TutorialServiceDataJpaTest {
     }
 
     @Test
-    fun getByDslFilterByName1() {
+    fun findByNameContainingOrderByName() {
         val tutorialService = TutorialServiceImpl(tutorialRepository)
         val NAME = "Tutorial1"
 
@@ -61,6 +61,21 @@ class TutorialServiceDataJpaTest {
 
         assertEquals(5, nextN)
     }
+
+    @Test
+    fun findByNameContainingOrderByNameAndDescriptionContaining() {
+        val tutorialService = TutorialServiceImpl(tutorialRepository)
+
+        val dtos = tutorialService.findByNameContainingAndDescriptionContainingOrderByName("Name Tutorial1", "Description Tutorial1")
+
+        assertEquals(1, dtos.size)
+        assertEquals(
+            TutorialDTO(1, "Name Tutorial1", "Description Tutorial1", true, true),
+            dtos.get(0)
+        )
+    }
+
+
 //    @Test
 //    fun getByDslFilterIdsAndName() {
 //        val productService = ProductServiceImpl(productRepository, groupProductService)
