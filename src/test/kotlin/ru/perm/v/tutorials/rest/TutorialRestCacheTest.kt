@@ -1,38 +1,67 @@
 package ru.perm.v.tutorials.rest
 
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.Mockito
 import org.mockito.kotlin.times
 import org.mockito.kotlin.verify
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.boot.test.context.TestConfiguration
 import org.springframework.boot.test.mock.mockito.MockBean
+import org.springframework.cache.CacheManager
+import org.springframework.cache.annotation.EnableCaching
+import org.springframework.cache.concurrent.ConcurrentMapCacheManager
+import org.springframework.context.annotation.Bean
+import org.springframework.test.context.ContextConfiguration
+import org.springframework.test.context.junit.jupiter.SpringExtension
+import org.springframework.test.web.servlet.MockMvc
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 import ru.perm.v.tutorials.dto.TutorialDTO
 import ru.perm.v.tutorials.service.TutorialService
 import kotlin.test.assertEquals
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class TutorialRestCacheTest(@Autowired val tutorialRest: TutorialRest) {
+@ExtendWith(SpringExtension::class)
+@WebMvcTest(TutorialRest::class)
+@ContextConfiguration
+//@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+class TutorialRestCacheTest(@Autowired val tutorialRest: TutorialRest, @Autowired private val mockMvc: MockMvc) {
     @MockBean
     lateinit var tutorialService: TutorialService
+
+    @Autowired
+    lateinit var cache: CacheManager
+
+    @EnableCaching
+    @TestConfiguration
+    class CachingTestConfig {
+        @Bean
+        fun cacheManager(): CacheManager = ConcurrentMapCacheManager("tutorials")
+    }
 
     @Test
     fun getByN() {
         val N = 100L
-        val NAME = "NAME"
-        val DESCRIPTION: String = ""
-        var PUBLISHED: Boolean = false
-        var SUBMITTED: Boolean = false
 
-        val tutorial = TutorialDTO(N, NAME, DESCRIPTION, PUBLISHED, SUBMITTED)
+        val tutorial = TutorialDTO(N, "NAME", "DESCRIPTION", false, false)
         Mockito.`when`(tutorialService.getByN(N)).thenReturn(tutorial)
-        // call 3 times
-        tutorialRest.getByN(N)
-        tutorialRest.getByN(N)
-        val dto = tutorialRest.getByN(N)
 
-        assertEquals(N, dto.n)
-        // but productService.getByN(N) was called only 1 time
+        // call 3 times
+        mockMvc.perform(
+            MockMvcRequestBuilders.get("/tutorial/$N")
+        )
+            .andExpect(MockMvcResultMatchers.status().isOk)
+            .andReturn()
+        mockMvc.perform(
+            MockMvcRequestBuilders.get("/tutorial/$N")
+        )
+        mockMvc.perform(
+            MockMvcRequestBuilders.get("/tutorial/$N")
+        )
+
+        // but tutorialService.getByN(N) was called only 1 time
         verify(tutorialService, times(1)).getByN(N)
     }
 
@@ -40,14 +69,15 @@ class TutorialRestCacheTest(@Autowired val tutorialRest: TutorialRest) {
     fun getByN_WithDelete() {
         val N = 100L
         val NAME = "NAME"
-        val DESCRIPTION: String = ""
-        var PUBLISHED: Boolean = false
-        var SUBMITTED: Boolean = false
+        val DESCRIPTION = ""
+        val PUBLISHED = false
+        val SUBMITTED = false
 
         val tutorial = TutorialDTO(N, NAME, DESCRIPTION, PUBLISHED, SUBMITTED)
 
         Mockito.`when`(tutorialService.getByN(N)).thenReturn(tutorial)
         // call 3 times
+
         tutorialRest.getByN(N)
         tutorialRest.getByN(N)
         val dto = tutorialRest.getByN(N)

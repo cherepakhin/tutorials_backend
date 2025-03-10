@@ -28,9 +28,9 @@ internal class TutorialRestTest {
     fun getByN() {
         val N = 1L
         val NAME = "NAME_1"
-        val DESCRIPTION: String = "DESCRIPTION_1"
-        val PUBLISHED: Boolean = false
-        val SUBMITTED: Boolean = false
+        val DESCRIPTION = "DESCRIPTION_1"
+        val PUBLISHED = false
+        val SUBMITTED = false
 
         val tutorialDTO = TutorialDTO(N, NAME, DESCRIPTION, PUBLISHED, SUBMITTED)
 
@@ -46,9 +46,9 @@ internal class TutorialRestTest {
         val N1 = 1L
         val N2 = 2L
         val NAME = "NAME_1"
-        val DESCRIPTION: String = "DESCRIPTION_1"
-        val PUBLISHED: Boolean = false
-        val SUBMITTED: Boolean = false
+        val DESCRIPTION = "DESCRIPTION_1"
+        val PUBLISHED = false
+        val SUBMITTED = false
 
         val dto1 = TutorialDTO(N1, NAME, DESCRIPTION, PUBLISHED, SUBMITTED)
         val dto2 = TutorialDTO(N2, NAME, DESCRIPTION, PUBLISHED, SUBMITTED)
@@ -67,9 +67,9 @@ internal class TutorialRestTest {
     fun validateDTO() {
         val N1 = 1L
         val NAME_EMPTY = ""
-        val DESCRIPTION: String = "DESCRIPTION_1"
-        val PUBLISHED: Boolean = false
-        val SUBMITTED: Boolean = false
+        val DESCRIPTION = "DESCRIPTION_1"
+        val PUBLISHED = false
+        val SUBMITTED = false
 
         val dto = TutorialDTO(N1, NAME_EMPTY, DESCRIPTION, PUBLISHED, SUBMITTED)
         var exceptMessage = ""
@@ -89,9 +89,9 @@ internal class TutorialRestTest {
     fun create() {
         val N1 = 1L
         val NAME = "NAME_1"
-        val DESCRIPTION: String = "DESCRIPTION_1"
-        val PUBLISHED: Boolean = false
-        val SUBMITTED: Boolean = false
+        val DESCRIPTION = "DESCRIPTION_1"
+        val PUBLISHED = false
+        val SUBMITTED = false
 
         val dto1 = TutorialDTO(N1, NAME, DESCRIPTION, PUBLISHED, SUBMITTED)
 
@@ -109,9 +109,9 @@ internal class TutorialRestTest {
     fun createWhenNotValidTutorialDTO() {
         val N1 = 1L
         val NAME = ""
-        val DESCRIPTION: String = "DESCRIPTION"
-        val PUBLISHED: Boolean = false
-        val SUBMITTED: Boolean = false
+        val DESCRIPTION = "DESCRIPTION"
+        val PUBLISHED = false
+        val SUBMITTED = false
 
         val tutorial = TutorialDTO(N1, NAME, DESCRIPTION, PUBLISHED, SUBMITTED)
         val exception = assertThrows<Exception> { tutorialRest.create(tutorial) }
@@ -126,9 +126,9 @@ internal class TutorialRestTest {
     fun updateWhenNotValidTutorialDTO() {
         val N1 = 1L
         val NAME = ""
-        val DESCRIPTION: String = "DESCRIPTION"
-        val PUBLISHED: Boolean = false
-        val SUBMITTED: Boolean = false
+        val DESCRIPTION = "DESCRIPTION"
+        val PUBLISHED = false
+        val SUBMITTED = false
 
         val tutorial = TutorialDTO(N1, NAME, DESCRIPTION, PUBLISHED, SUBMITTED)
 
@@ -146,9 +146,9 @@ internal class TutorialRestTest {
     fun updateWhenValidTutorialDTODoesNotThrow() {
         val N1 = 1L
         val NAME = "NAME_1"
-        val DESCRIPTION: String = ""
-        val PUBLISHED: Boolean = false
-        val SUBMITTED: Boolean = false
+        val DESCRIPTION = ""
+        val PUBLISHED = false
+        val SUBMITTED = false
 
         val dto = TutorialDTO(N1, NAME, DESCRIPTION, PUBLISHED, SUBMITTED)
 
@@ -159,9 +159,9 @@ internal class TutorialRestTest {
     fun update() {
         val N1 = 1L
         val UPDATED_NAME = "UPDATED_NAME_1"
-        val DESCRIPTION: String = ""
-        val PUBLISHED: Boolean = false
-        val SUBMITTED: Boolean = false
+        val DESCRIPTION = ""
+        val PUBLISHED = false
+        val SUBMITTED = false
 
         val dto = TutorialDTO(N1, UPDATED_NAME, DESCRIPTION, PUBLISHED, SUBMITTED)
         val updatedDto = TutorialDTO(N1, UPDATED_NAME, DESCRIPTION, PUBLISHED, SUBMITTED)

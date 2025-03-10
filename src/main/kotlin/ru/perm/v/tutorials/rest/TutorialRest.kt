@@ -3,6 +3,7 @@ package ru.perm.v.tutorials.rest
 import io.swagger.annotations.ApiOperation
 import io.swagger.v3.oas.annotations.Parameter
 import org.slf4j.LoggerFactory
+import org.springframework.cache.annotation.Cacheable
 import org.springframework.web.bind.annotation.*
 import ru.perm.v.tutorials.dto.TutorialDTO
 import ru.perm.v.tutorials.service.TutorialService
@@ -57,7 +58,7 @@ class TutorialRest(val tutorialService: TutorialService) {
 
     @GetMapping("/{n}")
     @ApiOperation("Get Tutorial by N")
-//    @Cacheable("tutorials")
+    @Cacheable("tutorials")
     fun getByN(
         @Parameter(
             description = "N(ID) Tutorial."
