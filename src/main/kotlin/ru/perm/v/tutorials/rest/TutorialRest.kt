@@ -101,9 +101,13 @@ class TutorialRest(val tutorialService: TutorialService) {
         )
         @PathVariable
         n: Long,
-    ) {
-        if (tutorialService.existById(n))
+    ): String {
+        if (tutorialService.existById(n)) {
             tutorialService.delete(n)
+            return "OK"
+        } else {
+            throw Exception("Tutorial with ID=$n not found.")
+        }
     }
 
     fun validate(tutorialDTO: TutorialDTO) {

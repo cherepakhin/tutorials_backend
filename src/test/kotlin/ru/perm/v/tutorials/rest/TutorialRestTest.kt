@@ -16,7 +16,7 @@ import ru.perm.v.tutorials.service.TutorialService
 import javax.servlet.http.HttpServletRequest
 
 @ExtendWith(MockitoExtension::class)
-internal class TutorialRestYaGPT5PRO {
+internal class TutorialRestTest {
 
     @Mock
     private lateinit var mockTutorialService: TutorialService
@@ -186,12 +186,14 @@ internal class TutorialRestYaGPT5PRO {
     @Test
     fun deleteByNotExistId() {
         val ID = 100L
-        doThrow(Exception("ERROR_MESSAGE")).`when`(mockTutorialService).delete(ID)
+//        doThrow(Exception("ERROR_MESSAGE")).`when`(mockTutorialService).delete(ID)
+        Mockito.`when`(mockTutorialService.existById(ID))
+            .thenReturn(false)
 
         val exception = assertThrows<Exception> { tutorialRest.deleteById(ID) }
 
         assertEquals(
-            "ERROR_MESSAGE",
+            "Tutorial with ID=100 not found.",
             exception.message
         )
     }
