@@ -8,10 +8,9 @@ import ru.perm.v.tutorials.dto.TutorialDTO
 import ru.perm.v.tutorials.repository.TutorialRepository
 
 @DataJpaTest
-class TutorialServiceIntegrationTest {
+class TutorialServiceDataJpaTest {
     @Autowired
     lateinit var tutorialRepository: TutorialRepository
-
 
     @Test
     fun forDEMO() {
