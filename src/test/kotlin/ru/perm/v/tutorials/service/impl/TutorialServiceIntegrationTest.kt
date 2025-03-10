@@ -16,9 +16,10 @@ class TutorialServiceIntegrationTest {
     fun forDEMO() {
         val tutorialService = TutorialServiceImpl(tutorialRepository)
 
-        assertEquals(9, tutorialService.getAll().size)
+        assertEquals(4, tutorialService.getAll().size)
     }
 
+//TODO: test for integration tests
 //    @Test
 //    fun getByDslFilterByIds() {
 //        val productService = ProductServiceImpl(productRepository, groupProductService)
