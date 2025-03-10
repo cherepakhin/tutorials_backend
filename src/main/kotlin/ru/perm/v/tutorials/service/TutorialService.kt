@@ -12,4 +12,5 @@ interface TutorialService {
     fun existById(n: Long): Boolean
     fun findByNameContainingOrderByName(name: String): List<TutorialDTO>
     fun getCountOfTutorialNames(): Long
+    fun getNextN(): Long
 }

@@ -67,4 +67,9 @@ class TutorialServiceImpl(val tutorialRepository: TutorialRepository) : Tutorial
     override fun getCountOfTutorialNames(): Long {
         return tutorialRepository.getCountOfTutorialNames()
     }
+
+    override fun getNextN(): Long {
+        return tutorialRepository.getNextN()
+    }
+
 }

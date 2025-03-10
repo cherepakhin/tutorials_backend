@@ -47,11 +47,20 @@ class TutorialServiceDataJpaTest {
     @Test
     fun getCountOfTutorialNames() {
         val tutorialService = TutorialServiceImpl(tutorialRepository)
+
         val count = tutorialService.getCountOfTutorialNames()
 
         assertEquals(4, count)
     }
-//
+
+    @Test
+    fun getNextN() {
+        val tutorialService = TutorialServiceImpl(tutorialRepository)
+
+        val nextN = tutorialService.getNextN()
+
+        assertEquals(5, nextN)
+    }
 //    @Test
 //    fun getByDslFilterIdsAndName() {
 //        val productService = ProductServiceImpl(productRepository, groupProductService)
