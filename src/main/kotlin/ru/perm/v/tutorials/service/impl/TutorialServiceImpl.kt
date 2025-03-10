@@ -7,7 +7,7 @@ import ru.perm.v.tutorials.repository.TutorialRepository
 import ru.perm.v.tutorials.service.TutorialService
 import java.lang.String.format
 
-//TODO: verify
+//TODO: verify input params
 @Service
 class TutorialServiceImpl(val tutorialRepository: TutorialRepository) : TutorialService {
 
@@ -62,5 +62,9 @@ class TutorialServiceImpl(val tutorialRepository: TutorialRepository) : Tutorial
         val entites = tutorialRepository.findByNameContainingOrderByName(name)
         val dtos = entites.map { MapperTutorial.mapFromEntityToDto(it) }
         return dtos
+    }
+
+    override fun getCountOfTutorialNames(): Long {
+        return tutorialRepository.getCountOfTutorialNames()
     }
 }
