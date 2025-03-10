@@ -17,7 +17,6 @@ import org.springframework.http.MediaType
 import org.springframework.test.context.junit.jupiter.SpringExtension
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import ru.perm.v.tutorials.dto.TutorialDTO
@@ -41,7 +40,7 @@ class TutorialRestMockMvcTest(@Autowired private val mockMvc: MockMvc) {
         val mes = mockMvc.perform(
             MockMvcRequestBuilders.get("/tutorial/echo/ECHO_MESSAGE")
         )
-            .andExpect(MockMvcResultMatchers.status().isOk)
+            .andExpect(status().isOk)
             .andReturn()
 
         assertEquals("ECHO_MESSAGE", mes.response.contentAsString)
@@ -51,9 +50,9 @@ class TutorialRestMockMvcTest(@Autowired private val mockMvc: MockMvc) {
     fun create() {
         val N = 1L
         val NAME = "NAME_1"
-        val DESCRIPTION: String = "DESCRIPTION_1"
-        val PUBLISHED: Boolean = false
-        val SUBMITTED: Boolean = false
+        val DESCRIPTION = "DESCRIPTION_1"
+        val PUBLISHED = false
+        val SUBMITTED = false
         val tutorialDTO = TutorialDTO(N, NAME, DESCRIPTION, PUBLISHED, SUBMITTED)
 
         doReturn(tutorialDTO).`when`(mockTutorialService).create(tutorialDTO)
@@ -65,11 +64,11 @@ class TutorialRestMockMvcTest(@Autowired private val mockMvc: MockMvc) {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(mapper.writeValueAsString(tutorialDTO))
         )
-            .andExpect(MockMvcResultMatchers.status().isOk)
+            .andExpect(status().isOk)
             .andReturn()
-        val messageAsString = message.response.contentAsString;
+        val messageAsString = message.response.contentAsString
 
-        assertEquals("{\"n\":10,\"name\":\"NAME_10\",\"groupDtoN\":-1}", messageAsString)
+        assertEquals("{\"n\":1,\"name\":\"NAME_1\",\"description\":\"DESCRIPTION_1\",\"published\":false,\"submitted\":false}", messageAsString)
 
         val receivedDTO = mapper.readValue<TutorialDTO>(messageAsString)
         assertEquals(tutorialDTO, receivedDTO)
@@ -79,9 +78,9 @@ class TutorialRestMockMvcTest(@Autowired private val mockMvc: MockMvc) {
     fun getByN() {
         val N = 1L
         val NAME = "NAME_1"
-        val DESCRIPTION: String = "DESCRIPTION_1"
-        val PUBLISHED: Boolean = false
-        val SUBMITTED: Boolean = false
+        val DESCRIPTION = "DESCRIPTION_1"
+        val PUBLISHED = false
+        val SUBMITTED = false
         val tutorialDTO = TutorialDTO(N, NAME, DESCRIPTION, PUBLISHED, SUBMITTED)
         doReturn(tutorialDTO).`when`(mockTutorialService).getByN(N)
 
@@ -92,7 +91,7 @@ class TutorialRestMockMvcTest(@Autowired private val mockMvc: MockMvc) {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(mapper.writeValueAsString(tutorialDTO))
         )
-            .andExpect(MockMvcResultMatchers.status().isOk)
+            .andExpect(status().isOk)
             .andReturn()
 
         assertEquals(
@@ -107,9 +106,9 @@ class TutorialRestMockMvcTest(@Autowired private val mockMvc: MockMvc) {
     @Test
     fun getAll() {
         val NAME = "NAME_1"
-        val DESCRIPTION: String = "DESCRIPTION_1"
-        val PUBLISHED: Boolean = false
-        val SUBMITTED: Boolean = false
+        val DESCRIPTION = "DESCRIPTION_1"
+        val PUBLISHED = false
+        val SUBMITTED = false
         val N10 = 10L
         val N11 = 11L
 
@@ -126,7 +125,7 @@ class TutorialRestMockMvcTest(@Autowired private val mockMvc: MockMvc) {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(mapper.writeValueAsString(tutorials))
         )
-            .andExpect(MockMvcResultMatchers.status().isOk)
+            .andExpect(status().isOk)
             .andReturn()
 
         val receivedDTOs = mapper.readValue<List<TutorialDTO>>(mes.response.contentAsString)
@@ -154,7 +153,7 @@ class TutorialRestMockMvcTest(@Autowired private val mockMvc: MockMvc) {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(mapper.writeValueAsString(tutorialDTO_10))
         )
-            .andExpect(MockMvcResultMatchers.status().isOk)
+            .andExpect(status().isOk)
             .andReturn()
 
         assertEquals(
@@ -176,7 +175,7 @@ class TutorialRestMockMvcTest(@Autowired private val mockMvc: MockMvc) {
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
         )
-            .andExpect(MockMvcResultMatchers.status().isOk)
+            .andExpect(status().isOk)
             .andReturn()
 
         verify(mockTutorialService, times(1)).existById(N)
@@ -196,9 +195,9 @@ class TutorialRestMockMvcTest(@Autowired private val mockMvc: MockMvc) {
                     .accept(MediaType.APPLICATION_JSON)
                     .contentType(MediaType.APPLICATION_JSON)
             )
-                .andExpect(MockMvcResultMatchers.status().isBadRequest)
+                .andExpect(status().isBadRequest)
                 .andExpect(content().string(""))
-                .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andReturn()
         }
         Mockito.verify(mockTutorialService, never()).delete(any())

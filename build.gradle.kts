@@ -172,6 +172,11 @@ tasks.withType<Test> {
         exclude("*IntegrationTest*")
     }
 
+    finalizedBy("jacocoTestReport")
+    doLast {
+        println("View code coverage at:")
+        println("file://$buildDir/reports/jacoco/test/html/index.html")
+    }
 }
 
 //// remove suffix 'plain' in sonar repository
