@@ -71,7 +71,7 @@ class TutorialRest(val tutorialService: TutorialService) {
 
     @GetMapping("/")
     @ApiOperation("Get all tutorials")
-//    @Cacheable("tutorials")
+    @Cacheable("tutorials")
     fun getAll(): List<TutorialDTO> {
         return tutorialService.getAll()
     }

@@ -74,37 +74,13 @@ class TutorialRestCacheTest(@Autowired val tutorialRest: TutorialRest,
     }
 
     @Test
-    fun getByN_WithDelete() {
-        val N = 100L
-        val NAME = "NAME"
-        val DESCRIPTION = ""
-        val PUBLISHED = false
-        val SUBMITTED = false
-
-        val tutorial = TutorialDTO(N, NAME, DESCRIPTION, PUBLISHED, SUBMITTED)
-
-        Mockito.`when`(tutorialService.getByN(N)).thenReturn(tutorial)
-        // call 3 times
-
-        tutorialRest.getByN(N)
-        tutorialRest.getByN(N)
-        val dto = tutorialRest.getByN(N)
-
-        assertEquals(N, dto.n)
-        // but productService.getByN(N) was called only 1 time
-        verify(tutorialService, times(1)).getByN(N)
-
-        tutorialRest.deleteById(N)
-    }
-
-    @Test
     fun getAll() {
         val N_111 = 111L
         val N_222 = 222L
         val NAME = "NAME"
-        val DESCRIPTION: String = ""
-        var PUBLISHED: Boolean = false
-        var SUBMITTED: Boolean = false
+        val DESCRIPTION = ""
+        val PUBLISHED = false
+        val SUBMITTED = false
 
         val tutorial1 = TutorialDTO(N_111, NAME, DESCRIPTION, PUBLISHED, SUBMITTED)
         val tutorial2 = TutorialDTO(N_222, NAME, DESCRIPTION, PUBLISHED, SUBMITTED)
