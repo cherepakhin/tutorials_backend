@@ -75,7 +75,7 @@ class TutorialRest(val tutorialService: TutorialService) {
         return tutorialService.getAll()
     }
 
-    @PutMapping(path = ["/{n}"], consumes = ["application/json"], produces = ["application/json"])
+    @PostMapping(path = ["/{n}"], consumes = ["application/json"], produces = ["application/json"])
 //    @CacheEvict(value = ["tutorials", "allTutorialDTO"], allEntries = true)
     @ApiOperation("Update Tutorial")
     fun update(

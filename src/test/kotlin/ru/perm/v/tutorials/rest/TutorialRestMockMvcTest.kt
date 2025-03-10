@@ -137,9 +137,9 @@ class TutorialRestMockMvcTest(@Autowired private val mockMvc: MockMvc) {
     fun update() {
         val N10 = 10L
         val NAME = "NAME_1"
-        val DESCRIPTION: String = "DESCRIPTION_1"
-        var PUBLISHED: Boolean = false
-        var SUBMITTED: Boolean = false
+        val DESCRIPTION = "DESCRIPTION_1"
+        val PUBLISHED = false
+        val SUBMITTED = false
 
         val tutorialDTO_10 = TutorialDTO(N10, NAME, DESCRIPTION, PUBLISHED, SUBMITTED)
         doReturn(tutorialDTO_10).`when`(mockTutorialService).update(tutorialDTO_10)
@@ -154,7 +154,7 @@ class TutorialRestMockMvcTest(@Autowired private val mockMvc: MockMvc) {
             .andExpect(MockMvcResultMatchers.status().isOk)
             .andReturn()
 
-        assertEquals("{\"n\":10,\"name\":\"NAME_10\",\"groupDtoN\":-1}", mes.response.contentAsString)
+        assertEquals("{\"n\":10,\"name\":\"NAME_1\",\"description\":\"DESCRIPTION_1\",\"published\":false,\"submitted\":false}", mes.response.contentAsString)
 
         val receivedProductDTO = mapper.readValue<TutorialDTO>(mes.response.contentAsString)
         assertEquals(tutorialDTO_10, receivedProductDTO)
