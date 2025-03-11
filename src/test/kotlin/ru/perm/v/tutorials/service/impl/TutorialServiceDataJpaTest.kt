@@ -41,7 +41,7 @@ class TutorialServiceDataJpaTest {
         assertEquals(1, tutorials.size)
         assertEquals(
             TutorialDTO(1, "Name Tutorial1", "Description Tutorial1", true, true),
-            tutorials.get(0)
+            tutorials[0]
         )
     }
 
@@ -79,7 +79,7 @@ class TutorialServiceDataJpaTest {
                 "Name Tutorial1",
                 "Description Tutorial1",
                 true, true),
-            dtos.get(0)
+            dtos[0]
         )
     }
 
@@ -117,7 +117,8 @@ class TutorialServiceDataJpaTest {
         assertEquals(1, tutors.size)
         assertEquals(
             TutorialDTO(2, "Name Tutorial2", "Description Tutorial2", true, true),
-            tutors.get(0))
+            tutors[0]
+        )
     }
 
     @Test
@@ -131,7 +132,8 @@ class TutorialServiceDataJpaTest {
         assertEquals(1, tutors.size)
         assertEquals(
             TutorialDTO(1, "Name Tutorial1", "Description Tutorial1", true, true),
-            tutors.get(0))
+            tutors[0]
+        )
     }
 
     @Test
@@ -145,11 +147,12 @@ class TutorialServiceDataJpaTest {
         assertEquals(1, tutors.size)
         assertEquals(
             TutorialDTO(2, "Name Tutorial2", "Description Tutorial2", true, true),
-            tutors.get(0))
+            tutors[0]
+        )
     }
 
     @Test
-    fun findByTutorialSpesificationInForNi_n_1_2() {
+    fun findByTutorialSpesification_N_in_1_2() {
         val tutorialCriteria = TutorialCriteria()
         tutorialCriteria.listN = listOf(1L, 2L)
         val tutorialService = TutorialServiceImpl(tutorialRepository)
@@ -159,10 +162,28 @@ class TutorialServiceDataJpaTest {
         assertEquals(2, tutors.size)
         assertEquals(
             TutorialDTO(1, "Name Tutorial1", "Description Tutorial1", true, true),
-            tutors.get(0))
+            tutors[0]
+        )
         assertEquals(
             TutorialDTO(2, "Name Tutorial2", "Description Tutorial2", true, true),
-            tutors.get(1))
+            tutors[1]
+        )
+    }
+
+    @Test
+    fun findByTutorialSpesification_N_in_1_2_and_Name_like() {
+        val tutorialCriteria = TutorialCriteria()
+        tutorialCriteria.name = "1"
+        tutorialCriteria.listN = listOf(1L, 2L)
+        val tutorialService = TutorialServiceImpl(tutorialRepository)
+
+        val tutors = tutorialService.findByTutorialCriteria(tutorialCriteria)
+
+        assertEquals(1, tutors.size)
+        assertEquals(
+            TutorialDTO(1, "Name Tutorial1", "Description Tutorial1", true, true),
+            tutors[0]
+        )
     }
 
 //    @Test
