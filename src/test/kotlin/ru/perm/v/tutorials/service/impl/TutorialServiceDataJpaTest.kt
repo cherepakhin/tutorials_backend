@@ -5,7 +5,9 @@ import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
 import ru.perm.v.tutorials.dto.TutorialDTO
+import ru.perm.v.tutorials.filter.TutorialCriteria
 import ru.perm.v.tutorials.repository.TutorialRepository
+import kotlin.test.assertTrue
 
 @DataJpaTest
 class TutorialServiceDataJpaTest {
@@ -19,7 +21,6 @@ class TutorialServiceDataJpaTest {
         assertEquals(4, tutorialService.getAll().size)
     }
 
-    //TODO: test for integration tests
     @Test
     fun getByDslFilterByName() {
         val tutorialService = TutorialServiceImpl(tutorialRepository)
@@ -82,6 +83,41 @@ class TutorialServiceDataJpaTest {
         )
     }
 
+
+    @Test
+    fun findByTutorialSpesificationEmpty() {
+        val tutorialCriteria = TutorialCriteria()
+        val tutorialService = TutorialServiceImpl(tutorialRepository)
+
+        val tutors = tutorialService.findByTutorialCriteria(tutorialCriteria)
+
+        assertTrue { tutors.size > 0 }
+    }
+
+    @Test
+    fun findByTutorialSpesificationLikeAllName() {
+        val tutorialCriteria = TutorialCriteria()
+        tutorialCriteria.name = "%"
+        val tutorialService = TutorialServiceImpl(tutorialRepository)
+
+        val tutors = tutorialService.findByTutorialCriteria(tutorialCriteria)
+
+        assertEquals(4, tutors.size)
+    }
+
+    @Test
+    fun findByTutorialSpesificationLikeName2() {
+        val tutorialCriteria = TutorialCriteria()
+        tutorialCriteria.name = "2"
+        val tutorialService = TutorialServiceImpl(tutorialRepository)
+
+        val tutors = tutorialService.findByTutorialCriteria(tutorialCriteria)
+
+        assertEquals(1, tutors.size)
+        assertEquals(
+            TutorialDTO(2, "Name Tutorial2", "Description Tutorial2", true, true),
+            tutors.get(0))
+    }
 
 //    @Test
 //    fun getByDslFilterIdsAndName() {

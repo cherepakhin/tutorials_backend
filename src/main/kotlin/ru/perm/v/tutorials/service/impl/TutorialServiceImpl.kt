@@ -1,7 +1,11 @@
 package ru.perm.v.tutorials.service.impl
 
+import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 import ru.perm.v.tutorials.dto.TutorialDTO
+import ru.perm.v.tutorials.entity.TutorialEntity
+import ru.perm.v.tutorials.filter.TutorialCriteria
+import ru.perm.v.tutorials.filter.TutorialSpecificationCreator
 import ru.perm.v.tutorials.mapper.MapperTutorial
 import ru.perm.v.tutorials.repository.TutorialRepository
 import ru.perm.v.tutorials.service.TutorialService
@@ -10,6 +14,7 @@ import java.lang.String.format
 //TODO: verify input params
 @Service
 class TutorialServiceImpl(val tutorialRepository: TutorialRepository) : TutorialService {
+    private val logger = LoggerFactory.getLogger(this.javaClass.name)
 
     override fun create(dto: TutorialDTO): TutorialDTO {
         val entity = MapperTutorial.mapFromDtoToEntity(dto)
@@ -77,8 +82,22 @@ class TutorialServiceImpl(val tutorialRepository: TutorialRepository) : Tutorial
         description: String,
     ): List<TutorialDTO> {
         val entities = tutorialRepository.findByNameContainingAndDescriptionContainingOrderByName(name, description)
-        val dtos = entities.map { MapperTutorial.mapFromEntityToDto(it) }
+
+        val dtos = toDTOs(entities)
         return dtos
+    }
+
+    fun toDTOs(entities: List<TutorialEntity>): List<TutorialDTO> {
+        return entities.map { MapperTutorial.mapFromEntityToDto(it) }
+    }
+
+    override fun findByTutorialCriteria(tutorialFilter: TutorialCriteria): List<TutorialDTO> {
+        val tutorialSpecification = TutorialSpecificationCreator.getByCritery(tutorialFilter)
+        val entities = tutorialRepository.findAll(tutorialSpecification)
+        for (e in entities) {
+            logger.info(e.toString())
+        }
+        return toDTOs(entities)
     }
 
 

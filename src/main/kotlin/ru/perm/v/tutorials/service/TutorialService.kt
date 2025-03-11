@@ -1,7 +1,7 @@
 package ru.perm.v.tutorials.service
 
 import ru.perm.v.tutorials.dto.TutorialDTO
-import ru.perm.v.tutorials.entity.TutorialEntity
+import ru.perm.v.tutorials.filter.TutorialCriteria
 
 interface TutorialService {
     fun create(dto: TutorialDTO): TutorialDTO
@@ -15,4 +15,5 @@ interface TutorialService {
     fun getCountOfTutorialNames(): Long
     fun getNextN(): Long
     fun findByNameContainingAndDescriptionContainingOrderByName(name: String, description: String): List<TutorialDTO>
+    fun findByTutorialCriteria(tutorialCriteria: TutorialCriteria): List<TutorialDTO>
 }

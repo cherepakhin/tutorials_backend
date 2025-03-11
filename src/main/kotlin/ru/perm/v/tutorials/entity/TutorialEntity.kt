@@ -56,10 +56,6 @@ open class TutorialEntity { // open - can be inherited and NEEDED FOR HIBERNATE 
                 published.hashCode() + submitted.hashCode()
     }
 
-    override fun toString(): String {
-        return super.toString()
-    }
-
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other !is TutorialEntity) return false
@@ -69,5 +65,9 @@ open class TutorialEntity { // open - can be inherited and NEEDED FOR HIBERNATE 
         if (published != other.published) return false
         if (submitted != other.submitted) return false
         return true
+    }
+
+    override fun toString(): String {
+        return "TutorialEntity(n=$n, name='$name', description='$description', published=$published, submitted=$submitted)"
     }
 }
