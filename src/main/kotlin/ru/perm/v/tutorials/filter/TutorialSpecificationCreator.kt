@@ -16,7 +16,14 @@ object TutorialSpecificationCreator {
                 predicates.add(criteriaBuilder.like(criteriaBuilder.lower(root.get("name")),
                     "%" + tutorialCriteria.name + "%"))
             }
-            query.orderBy(criteriaBuilder.desc(root.get<Any>("name")))
+            if(tutorialCriteria.listN.size > 0) {
+                val inClause: CriteriaBuilder.In<Long> =criteriaBuilder.`in`(root.get("n"))
+                for (n in tutorialCriteria.listN) {
+                    inClause.value(n)
+                }
+                predicates.add(inClause)
+            }
+            query.orderBy(criteriaBuilder.asc(root.get<Any>("n")))
             criteriaBuilder.and(*predicates.toTypedArray<Predicate>())
         }
     }

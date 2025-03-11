@@ -7,7 +7,7 @@ package ru.perm.v.tutorials.filter
  * @param listSortBy - list of sort fields, default is "name"
  */
 data class TutorialCriteria(
-    val listN: List<Long> = ArrayList(),
+    var listN: List<Long> = ArrayList(),
     var name: String = "",
     var listSortBy: List<String> = listOf("name")
 )

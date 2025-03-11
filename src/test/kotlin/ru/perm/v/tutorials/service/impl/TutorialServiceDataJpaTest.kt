@@ -92,6 +92,7 @@ class TutorialServiceDataJpaTest {
         val tutors = tutorialService.findByTutorialCriteria(tutorialCriteria)
 
         assertTrue { tutors.size > 0 }
+        assertEquals(4, tutors.size)
     }
 
     @Test
@@ -117,6 +118,51 @@ class TutorialServiceDataJpaTest {
         assertEquals(
             TutorialDTO(2, "Name Tutorial2", "Description Tutorial2", true, true),
             tutors.get(0))
+    }
+
+    @Test
+    fun findByTutorialSpesificationInForN_eq_1() {
+        val tutorialCriteria = TutorialCriteria()
+        tutorialCriteria.listN = listOf(1L)
+        val tutorialService = TutorialServiceImpl(tutorialRepository)
+
+        val tutors = tutorialService.findByTutorialCriteria(tutorialCriteria)
+
+        assertEquals(1, tutors.size)
+        assertEquals(
+            TutorialDTO(1, "Name Tutorial1", "Description Tutorial1", true, true),
+            tutors.get(0))
+    }
+
+    @Test
+    fun findByTutorialSpesificationInForN_eq_2() {
+        val tutorialCriteria = TutorialCriteria()
+        tutorialCriteria.listN = listOf(2L)
+        val tutorialService = TutorialServiceImpl(tutorialRepository)
+
+        val tutors = tutorialService.findByTutorialCriteria(tutorialCriteria)
+
+        assertEquals(1, tutors.size)
+        assertEquals(
+            TutorialDTO(2, "Name Tutorial2", "Description Tutorial2", true, true),
+            tutors.get(0))
+    }
+
+    @Test
+    fun findByTutorialSpesificationInForNi_n_1_2() {
+        val tutorialCriteria = TutorialCriteria()
+        tutorialCriteria.listN = listOf(1L, 2L)
+        val tutorialService = TutorialServiceImpl(tutorialRepository)
+
+        val tutors = tutorialService.findByTutorialCriteria(tutorialCriteria)
+
+        assertEquals(2, tutors.size)
+        assertEquals(
+            TutorialDTO(1, "Name Tutorial1", "Description Tutorial1", true, true),
+            tutors.get(0))
+        assertEquals(
+            TutorialDTO(2, "Name Tutorial2", "Description Tutorial2", true, true),
+            tutors.get(1))
     }
 
 //    @Test
