@@ -66,11 +66,18 @@ class TutorialServiceDataJpaTest {
     fun findByNameContainingOrderByNameAndDescriptionContaining() {
         val tutorialService = TutorialServiceImpl(tutorialRepository)
 
-        val dtos = tutorialService.findByNameContainingAndDescriptionContainingOrderByName("Name Tutorial1", "Description Tutorial1")
+        val dtos = tutorialService
+            .findByNameContainingAndDescriptionContainingOrderByName(
+                "Name Tutorial1",
+                "Description Tutorial1")
 
         assertEquals(1, dtos.size)
         assertEquals(
-            TutorialDTO(1, "Name Tutorial1", "Description Tutorial1", true, true),
+            TutorialDTO(
+                1,
+                "Name Tutorial1",
+                "Description Tutorial1",
+                true, true),
             dtos.get(0)
         )
     }
