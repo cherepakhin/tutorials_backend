@@ -17,10 +17,7 @@ class CacheConfig : CachingConfigurerSupport() {
     override fun cacheManager(): CacheManager {
         val cacheManager = SimpleCacheManager()
         val caches: MutableList<Cache> = ArrayList<Cache>()
-        caches.add(ConcurrentMapCache("products"))
-        caches.add(ConcurrentMapCache("group_products"))
-        caches.add(ConcurrentMapCache("product_echo"))
-        caches.add(ConcurrentMapCache("allGroupProductDTO"))
+        caches.add(ConcurrentMapCache("tutorials"))
         cacheManager.setCaches(caches)
         return cacheManager
     }

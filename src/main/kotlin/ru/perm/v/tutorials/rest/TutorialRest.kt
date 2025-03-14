@@ -3,6 +3,7 @@ package ru.perm.v.tutorials.rest
 import io.swagger.annotations.ApiOperation
 import io.swagger.v3.oas.annotations.Parameter
 import org.slf4j.LoggerFactory
+import org.springframework.cache.annotation.CacheEvict
 import org.springframework.cache.annotation.Cacheable
 import org.springframework.web.bind.annotation.*
 import ru.perm.v.tutorials.dto.TutorialDTO
@@ -77,7 +78,7 @@ class TutorialRest(val tutorialService: TutorialService) {
     }
 
     @PostMapping(path = ["/{n}"], consumes = ["application/json"], produces = ["application/json"])
-//    @CacheEvict(value = ["tutorials", "allTutorialDTO"], allEntries = true)
+    @CacheEvict(value = ["tutorials"], key = "#n")
     @ApiOperation("Update Tutorial")
     fun update(
         @PathVariable
@@ -94,7 +95,7 @@ class TutorialRest(val tutorialService: TutorialService) {
     }
 
     @DeleteMapping("/{n}")
-//    @CacheEvict(value = ["tutorials"], key = "#n") // no error, variant 1
+    @CacheEvict(value = ["tutorials"], key = "#n") // no error, variant 1
 //    @CacheEvict(cacheNames = ["tutorials"], key = "#n") // no error, variant 2
     fun deleteById(
         @Parameter(

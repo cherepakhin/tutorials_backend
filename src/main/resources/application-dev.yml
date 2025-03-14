@@ -17,7 +17,7 @@ spring:
     #  Для интеграционных тестов не отключаю
     #  База данных уже закрыта (чтобы отключить автоматическое закрытие базы данных при останове JVM,
     #  добавьте ";DB_CLOSE_ON_EXIT=FALSE" в URL)
-    url: jdbc:h2:mem:shop_db;DB_CLOSE_ON_EXIT=FALSE;MODE=MYSQL
+    url: jdbc:h2:mem:tutorial_db;DB_CLOSE_ON_EXIT=FALSE;MODE=MYSQL
     driverClassName: org.h2.Driver
     username: sa
     password:
@@ -73,7 +73,7 @@ management:
     web:
       exposure:
         include: "*"
-      base-path: "/shop_kotlin/api/actuator"
+      base-path: "/tutorial/api/actuator"
   metrics:
     tags:
       application: ${spring.application.name}
