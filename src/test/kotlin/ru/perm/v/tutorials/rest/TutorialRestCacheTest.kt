@@ -136,6 +136,7 @@ class TutorialRestCacheTest(
             .andExpect(MockMvcResultMatchers.status().isOk)
             .andReturn()
 
+        // GET
         val lastTutorialJson = mockMvc.perform(
             MockMvcRequestBuilders
                 .get(REQUEST_URL)
@@ -146,7 +147,7 @@ class TutorialRestCacheTest(
             .andExpect(MockMvcResultMatchers.status().isOk)
             .andReturn().response.contentAsString
 
-        verify(tutorialService, times(2)).getByN(N)
+        verify(tutorialService, times(2)).getByN(N) // cacheEVICT was called. GET REQUEST was called not 1 time, but 2 times
 
         val receivedProductDTO = mapper.readValue<TutorialDTO>(lastTutorialJson)
         assertEquals(tutorialDTO_10, receivedProductDTO)
