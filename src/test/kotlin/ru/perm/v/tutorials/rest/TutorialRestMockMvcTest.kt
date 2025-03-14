@@ -28,7 +28,7 @@ class TutorialRestMockMvcTest(@Autowired private val mockMvc: MockMvc) {
 
     // Used "@MockBean" for REMOVE ERROR for MockMvc
     // "... available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: ..."
-    // @MockBean is mock for SPRING BEAN! Must be added @ExtendWith(SpringExtension::class @WebMvcTest(ProductRest::class))
+    // @MockBean is mock for SPRING BEAN! Must be added @ExtendWith(SpringExtension::class @WebMvcTest(TutorialRest::class))
     // else get error "... available: expected at least 1 bean"
     @MockBean
     private lateinit var mockTutorialService: TutorialService
@@ -99,8 +99,8 @@ class TutorialRestMockMvcTest(@Autowired private val mockMvc: MockMvc) {
             mes.response.contentAsString
         )
 
-        val receivedProductDTO = mapper.readValue<TutorialDTO>(mes.response.contentAsString)
-        assertEquals(tutorialDTO, receivedProductDTO)
+        val receivedTutorialDTO = mapper.readValue<TutorialDTO>(mes.response.contentAsString)
+        assertEquals(tutorialDTO, receivedTutorialDTO)
     }
 
     @Test
@@ -161,8 +161,8 @@ class TutorialRestMockMvcTest(@Autowired private val mockMvc: MockMvc) {
             mes.response.contentAsString
         )
 
-        val receivedProductDTO = mapper.readValue<TutorialDTO>(mes.response.contentAsString)
-        assertEquals(tutorialDTO_10, receivedProductDTO)
+        val receivedTutorialDTO = mapper.readValue<TutorialDTO>(mes.response.contentAsString)
+        assertEquals(tutorialDTO_10, receivedTutorialDTO)
     }
 
     @Test

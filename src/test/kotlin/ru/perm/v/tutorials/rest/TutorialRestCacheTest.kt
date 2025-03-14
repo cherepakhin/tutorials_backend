@@ -72,8 +72,8 @@ class TutorialRestCacheTest(
         // but tutorialService.getByN(N) was called only 1 time
         verify(tutorialService, times(1)).getByN(N)
 
-        val receivedProductDTO = mapper.readValue<TutorialDTO>(result.response.contentAsString)
-        assertEquals(tutorial, receivedProductDTO)
+        val receivedTutorialDTO = mapper.readValue<TutorialDTO>(result.response.contentAsString)
+        assertEquals(tutorial, receivedTutorialDTO)
     }
 
     @Test
@@ -149,8 +149,8 @@ class TutorialRestCacheTest(
 
         verify(tutorialService, times(2)).getByN(N) // cacheEVICT was called. GET REQUEST was called not 1 time, but 2 times
 
-        val receivedProductDTO = mapper.readValue<TutorialDTO>(lastTutorialJson)
-        assertEquals(tutorialDTO_10, receivedProductDTO)
+        val receivedTutorialDTO = mapper.readValue<TutorialDTO>(lastTutorialJson)
+        assertEquals(tutorialDTO_10, receivedTutorialDTO)
     }
 
 }

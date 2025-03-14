@@ -25,7 +25,7 @@ internal class TutorialServiceImplMockTest {
 
     @InjectMocks
     // @InjectMocks САМ создает экземпляр service
-    // c "инъектированным" MOCK productRepository, GroupProductService, EntityManager
+    // c "инъектированным" MOCK tutorialRepository
     // EntityManager для inject находит в контексте
     private lateinit var tutorialService: TutorialServiceImpl
 
